@@ -21,9 +21,9 @@ The program reads sentences from a file, encodes them, and prints the results.
 4. Takes Sentences from the User and Encodes Them to a File:
 The encoder takes input sentences from the user, encodes them, and writes the encoded sentences to a file.
 
-# the instructions:
+#the instructions:
 
-# Part 1: Command-Line Arguments and Debugging
+#Part 1: Command-Line Arguments and Debugging
 First, re-read and understand the arguments of main(argc, argv), which represent the command-line arguments in the line used to run any program using a "console". Recall that argv is the number of arguments, and that argv is an array of pointers to locations containing "null terminated strings" - the command line arguments, with argv[0] pointing to the program file name used in the command line to run the program.
 Second, introduce a debug mode into your program. For this we will develop an easy debugging scheme which can be used with any program and allows for special debugging features for testing. The minimum implementation prints out important information to stderr when in debug mode. Printing out the command-line parameters allows for easy detection of errors in retrieving them. Henceforth, code you write in most labs and assignments will also require adding a debug mode, and it is a good idea to have this option in all programs you write, even if not required to do so!
 
