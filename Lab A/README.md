@@ -1,3 +1,5 @@
+# Overview:
+
 The objective of this assignment was to provide an introduction to C programming in a Unix (Linux 32 bits) environment. The assignment focused on creating an encoder with four main features:
 
 1. Debug mode: if the +D to turn it on and -D to turn it off
@@ -19,7 +21,7 @@ The program reads sentences from a file, encodes them, and prints the results.
 4. Takes Sentences from the User and Encodes Them to a File:
 The encoder takes input sentences from the user, encodes them, and writes the encoded sentences to a file.
 
-# The instructions:
+# instructions:
 
 # Part 1: Command-Line Arguments and Debugging
 First, re-read and understand the arguments of main(argc, argv), which represent the command-line arguments in the line used to run any program using a "console". Recall that argv is the number of arguments, and that argv is an array of pointers to locations containing "null terminated strings" - the command line arguments, with argv[0] pointing to the program file name used in the command line to run the program.
