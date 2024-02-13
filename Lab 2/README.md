@@ -8,51 +8,54 @@ Understanding storage addresses, introduction to pointers
 Pointers to basic data types, to structures, and to functions
 Simulating object-like behavior in C
 
-Task 0: Using gdb(1) to debug segmentation fault
-You should finish this task before attending the lab session.
 
-C is a low-level language. Execution of a buggy C program may cause its abnormal termination due to segmentation fault --- illegal access to a memory address. Debugging segmentation faults can be a laborious task. GNU Debugger, is a powerful tool for program debugging and inspection. When a program is compiled for debugging and run inside gdb, the exact location of segmentation fault can be determined. In addition, the state of the processor registers and values of the variables at the time of the fault can be examined.
+# Task 1: Understanding memory addresses and pointers
 
-The source code for a buggy program, count-words, is provided in file count-words.c. (You can find the file in the course Moodle) The program works correctly most of the time, but when called with a single word on the command line, terminates due to segmentation fault.
-
-Write a Makefile for the program.
-Specify compiler flags appropriate for debugging using gdb.
-Find the location and the cause of the segmentation fault using gdb.
-Fix the bug and make sure the program works correctly.
-The tasks below are to be done only during the lab session! Any code written before the lab will not be accepted.
-Task 1: Understanding memory addresses and pointers
 Logical virtual memory layout of a process is fixed in Linux. One can guess from the numerical value of a memory address whether the address points to:
 
 a static or a global variable,
+
 a local variable or a function argument,
+
 a function.
-T1a - Addresses
+
+# T1a - Addresses
+
 Read, compile and run the addresses.c (You can find the file in the course Moodle) program (remember to use the -m32 flag).
 Can you tell the location (stack, code, etc.) of each memory address?
 What can you say about the numerical values? Do they obey a particular order?
 
 Check long data size on your machine using sizeof operator. Is long integer data type enough for dist (address difference) variables ?
 
-T1b - Arrays memory layout
+# T1b - Arrays memory layout
+
 In this task we will examine the memory layout of arrays.
 Define four arrays of length 3 as shown below in the function main and print the memory address of each array cell.
 
 int iarray[3];
+
 float farray[3];
+
 double darray[3];
+
 char carray[3];
 
 Print the hexadecimal values of iarray, iarray+1, farray, farray+1, darray, darray+1, carray and carray+1 (the values of these pointers, not the values pointed by the pointers). What can you say about the behavior of the '+' operator?
 
 Given the results, explain to the TA the memory layout of arrays.
-T1c - Distances
+
+# T1c - Distances
+
 Understand and explain to the TA the purpose of the distances printed in the point_at function.
 Where is each memory address allocated and what does it have to do with the printed distance? Given the results, explain to the TA the memory layout of arrays.
 T1d - Pointers and arrays
 Array names are essentially pointer constants. Instead of using the arrays, use the pointers below to access array cells.
 int iarray2[] = {1,2,3};
+
 char carray2[] = {'a','b','c'};
+
 int* iarray2Ptr;
+
 char* carray2Ptr;
 
 Initialize the pointers iarrayPtr and carrayPtr to point to the first cell of the arrays iarray and carray respectively. Use the two pointers (iarrayPtr,carrayPtr) to print all the values of the two arrays.
@@ -61,7 +64,8 @@ Add an uninitialized pointer local variable p, and print its value (not the valu
 T1e - Address of command-line arguments
 Add a prinout of the address and content of the command line arguments (argv, argv[0], argv[1], etc.), and run the program with some command-line arguments. What can you say about the memory location of the command-line arguments visible in main( )?
 
-Task 2 - Structs and pointers to functions
+### Task 2 - Structs and pointers to functions
+
 Let us recall the following definition:
 Pointers to functions - C allows declaring pointers to functions. The syntax is: function_return_type (*pointer_name)(arguments_list); for simple types of return value and arguments. You can read more about pointers to functions here.
 
@@ -69,15 +73,20 @@ The base.c (You can find the file in the course Moodle) file is the base file fo
 
 During Task 2 we read individual characters (bytes) from stdin using fgetc( )
 Please read the Deliverables section before continuing.
-T2a
+
+# T2a
+
 Implement the map function that receives a pointer to a char (a pointer to a char array), an integer, and a pointer to a function. Map returns a new array (after allocating space for it), such that each value in the new array is the result of applying the function f on the corresponding character in the input array.
 1. char* map(char *array, int array_length, char (*f) (char))
 
 Example:
 
 char arr1[] = {'H','E','Y','!'};
+
 char* arr2 = map(arr1, 4, xprt);
+
 printf("%s\n", arr2);
+
 free(arr2);
 
 Results:
@@ -90,7 +99,9 @@ Results:
 21
 
 Do not forget to free allocated memory.
-T2b
+
+# T2b
+
 Implement the following functions, and test them:
 
 char my_get(char c);
@@ -139,18 +150,21 @@ y
 .
 Do not forget to free allocated memory.
 There is no need to encrypt/decrypt letters in a cyclic manner, simply add/reduce 1.
-Task 3 - Menu
+
+### Task 3 - Menu
+
 In this task we will be simulating objects in C. We will have a menu consisting of menu "objects", each of which has a name to be printed on the menu, and a "method" (which you will implement using a pointer to a function as a part of a "struct", as there are no "methods" or "objects" in C). From here on we read complete lines from stdin (using fgets( ) )instead of individual chars.
 
 struct - A struct in the C programming language is a structured type that aggregates a fixed set of labeled items, possibly of different types, into a single entity similar to an "object".
 
 The struct size equals the sum of the sizes of its objects plus alignment (if needed). You can get the size by using the sizeof operator as follows: sizeof(struct struct_name).
 
-T3a - Preliminary: Main Menu Loop and Terminating upon EOF.
+# T3a - Preliminary: Main Menu Loop and Terminating upon EOF.
+
 Write and check a program called "menu" that prints to stdout a line stating "Select operation from the following menu:", reads an input line from stdin, and repeats forever unless it encounters an EOF condition for stdin. In the latter case, your program should exit normally.
 Recall that typing 'Ctrl+D' in the console simulates an EOF condition for stdin.
 
-T3b - Implementing the menu
+# T3b - Implementing the menu
 In this task we will implement the menu. The menu must offer options for all your functions (Get String, Print String (crpt), Print Hex (xprt), Encrypt and Decrypt). See also the file Task 3 Example.
 A function pointer can be a field in a structure, thus several functions can be accessed through a single data structure or container.
 
