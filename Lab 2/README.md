@@ -121,35 +121,6 @@ char xprt(char c);
 
 Note that array length is constant i.e. if the initial array is of length 5, then the new array that we receive with my_get function is of the same length.
 
-Example:
-
-int base_len = 5;
-char arr1[base_len];
-char* arr2 = map(arr1, base_len, my_get);
-char* arr3 = map(arr2, base_len, cprt);
-char* arr4 = map(arr3, base_len, xprt);
-char* arr5 = map(arr4, base_len, encrypt);
-char* arr6 = map(arr5, base_len, decrypt);
-free(arr2);
-free(arr3);
-free(arr4);
-free(arr5);
-free(arr6);
-Result:
-
-Hey! // this is the user input.
-H
-e
-y
-!
-.
-48
-65
-79
-21
-.
-Do not forget to free allocated memory.
-There is no need to encrypt/decrypt letters in a cyclic manner, simply add/reduce 1.
 
 ### Task 3 - Menu
 
