@@ -19,7 +19,7 @@ a local variable or a function argument,
 
 a function.
 
-# T1a - Addresses
+### T1a - Addresses
 
 Read, compile and run the addresses.c (You can find the file in the course Moodle) program (remember to use the -m32 flag).
 Can you tell the location (stack, code, etc.) of each memory address?
@@ -27,7 +27,7 @@ What can you say about the numerical values? Do they obey a particular order?
 
 Check long data size on your machine using sizeof operator. Is long integer data type enough for dist (address difference) variables ?
 
-# T1b - Arrays memory layout
+### T1b - Arrays memory layout
 
 In this task we will examine the memory layout of arrays.
 Define four arrays of length 3 as shown below in the function main and print the memory address of each array cell.
@@ -44,7 +44,7 @@ Print the hexadecimal values of iarray, iarray+1, farray, farray+1, darray, darr
 
 Given the results, explain to the TA the memory layout of arrays.
 
-# T1c - Distances
+### T1c - Distances
 
 Understand and explain to the TA the purpose of the distances printed in the point_at function.
 Where is each memory address allocated and what does it have to do with the printed distance? Given the results, explain to the TA the memory layout of arrays.
@@ -64,7 +64,7 @@ Add an uninitialized pointer local variable p, and print its value (not the valu
 T1e - Address of command-line arguments
 Add a prinout of the address and content of the command line arguments (argv, argv[0], argv[1], etc.), and run the program with some command-line arguments. What can you say about the memory location of the command-line arguments visible in main( )?
 
-### Task 2 - Structs and pointers to functions
+# Task 2 - Structs and pointers to functions
 
 Let us recall the following definition:
 Pointers to functions - C allows declaring pointers to functions. The syntax is: function_return_type (*pointer_name)(arguments_list); for simple types of return value and arguments. You can read more about pointers to functions here.
@@ -74,7 +74,7 @@ The base.c (You can find the file in the course Moodle) file is the base file fo
 During Task 2 we read individual characters (bytes) from stdin using fgetc( )
 Please read the Deliverables section before continuing.
 
-# T2a
+### T2a
 
 Implement the map function that receives a pointer to a char (a pointer to a char array), an integer, and a pointer to a function. Map returns a new array (after allocating space for it), such that each value in the new array is the result of applying the function f on the corresponding character in the input array.
 1. char* map(char *array, int array_length, char (*f) (char))
@@ -100,7 +100,7 @@ Results:
 
 Do not forget to free allocated memory.
 
-# T2b
+### T2b
 
 Implement the following functions, and test them:
 
@@ -122,7 +122,7 @@ char xprt(char c);
 Note that array length is constant i.e. if the initial array is of length 5, then the new array that we receive with my_get function is of the same length.
 
 
-### Task 3 - Menu
+# Task 3 - Menu
 
 In this task we will be simulating objects in C. We will have a menu consisting of menu "objects", each of which has a name to be printed on the menu, and a "method" (which you will implement using a pointer to a function as a part of a "struct", as there are no "methods" or "objects" in C). From here on we read complete lines from stdin (using fgets( ) )instead of individual chars.
 
@@ -130,12 +130,12 @@ struct - A struct in the C programming language is a structured type that aggreg
 
 The struct size equals the sum of the sizes of its objects plus alignment (if needed). You can get the size by using the sizeof operator as follows: sizeof(struct struct_name).
 
-# T3a - Preliminary: Main Menu Loop and Terminating upon EOF.
+### T3a - Preliminary: Main Menu Loop and Terminating upon EOF.
 
 Write and check a program called "menu" that prints to stdout a line stating "Select operation from the following menu:", reads an input line from stdin, and repeats forever unless it encounters an EOF condition for stdin. In the latter case, your program should exit normally.
 Recall that typing 'Ctrl+D' in the console simulates an EOF condition for stdin.
 
-# T3b - Implementing the menu
+### T3b - Implementing the menu
 In this task we will implement the menu. The menu must offer options for all your functions (Get String, Print String (crpt), Print Hex (xprt), Encrypt and Decrypt). See also the file Task 3 Example.
 A function pointer can be a field in a structure, thus several functions can be accessed through a single data structure or container.
 
