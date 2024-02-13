@@ -1,12 +1,13 @@
-# Program Memory and Pointers, Debugging and Simulating Object Oriented Programming
+# Overview
+### Program Memory and Pointers, Debugging and Simulating Object Oriented Programming
+
 Lab goals:
 
 C primer
 Understanding storage addresses, introduction to pointers
 Pointers to basic data types, to structures, and to functions
 Simulating object-like behavior in C
-Remark : All the files mentioned in the lab text below are available on the course Moodle page.
-(This lab is to be done SOLO)
+
 Task 0: Using gdb(1) to debug segmentation fault
 You should finish this task before attending the lab session.
 
