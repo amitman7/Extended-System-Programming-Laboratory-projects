@@ -19,9 +19,9 @@ Experience basic ELF manipulation.
 
 This advice is relevant for all tasks. Note that while at some point you will no longer be using hexedit to process the file and readelf to get the information, nevertheless in some cases you may still want to use these tools for debugging purposes. In order to take advantage of these tools and make your tasks easier, you should:
 
-Support debugging messages: in particular the offsets of the various items, as you discover them from the headers. Also, whenever the user is required to enter values, you should print the parsed values in their respective representation (e.g. string, decimal or hexadecimal).
+**Support debugging messages:** in particular the offsets of the various items, as you discover them from the headers. Also, whenever the user is required to enter values, you should print the parsed values in their respective representation (e.g. string, decimal or hexadecimal).
 
-Use hexedit and readelf to compare the information you are looking for, especially if you run into unknown problems: hexedit is great if you know the exact location of the item you are looking for.
+**Use hexedit and readelf** to compare the information you are looking for, especially if you run into unknown problems: hexedit is great if you know the exact location of the item you are looking for.
 
 Note that while the object files you will be processing will be linked using ld, and will, in most cases, use direct system calls in order to make the ELF file simpler, there is no reason why the programs you write need use this interface. You are allowed to use the standard library when building your own C programs.
 
@@ -88,12 +88,12 @@ where the state struct is defined as:
     } state;
 Set File Name queries the user for a file name, and store it in file_name. You may assume that the file name is no longer than 100 characters. If debug mode is on, the function should also print (to stderr, as are all debug messages): "Debug: file name set to 'file_name' " (obviously, replacing 'file_name' with the actual name).
 
-Set Unit Size option sets the size variable. The steps are:
+**Set Unit Size option** sets the size variable. The steps are:
 
-Prompt the user for a number.
-If the value is valid (1, 2, or 4), set the size variable accordingly.
-If debug mode is on, print "Debug: set size to x", with x the appropriate size.
-If not valid, print an error message and leave size unchanged.
+1. Prompt the user for a number.
+2. If the value is valid (1, 2, or 4), set the size variable accordingly.
+3. If debug mode is on, print "Debug: set size to x", with x the appropriate size.
+4. If not valid, print an error message and leave size unchanged.
 
 Quit is a function that prints "quitting" (in debug mode), and calls exit(0) to quit the program.
 The rest of the functions will be written in the next tasks. The menu should be extensible, you will change and extend it in each sub-task of task 1. It should be printed using a loop iterating over the menu array, and be {NULL, NULL} terminated.
@@ -125,20 +125,26 @@ Copy length * unit_size bytes from file_name starting at position location into 
 Close the file.
 
 Assume that the user has already set the file name to "abc". If the user chooses 3 on the menu, he is prompted for location and length. It should look as follows:
-    3
-    Please enter <location> <length>
-    12F 10
+
+	 3
+	 Please enter <location> <length>
+	 12F 10
+     
 The program should open the file abc and load the 10 bytes (assuming unit size is set to 1), from byte 303 (which is the decimal value of 0x12F) to byte 312 in the file into mem_buf. The output should look like:
-Loaded 10 units into memory
+
+	Loaded 10 units into memory
 
 Remember
+
 To read location (hexadeciomal) and length (decimal) use fgets and then sscanf, rather than scanf directly.
+
 Note again that location is always entered in hexadecimal representation.
 
 
 ### Task 1b: Toggle Display Mode
 
 Write the function for the "Toggle Display Mode" option, which switches between display using a decimal representation, and display using a hexadecimal representation.
+
 Toggle display mode means turn the display flag on and print using a hexadecimal representation, the initial state is off and print using a decimal representation. Print "Display flag now on, hexadecimal representation", and if the display flag is on, this function prints "Display flag now off, decimal representation", and turns the flag off. For exmple, (assume that the display flag is off) entererint option 4 in the menu:
 
     4
@@ -149,8 +155,11 @@ Toggle display mode means turn the display flag on and print using a hexadecimal
 ### Task 1c: Memory Display
 
 Write the function for the "Memory Display" option:
+
 This option displays u units of size unit_size starting at address addr in memory. Unit_size is already defined in state, but u and addr should be queried from the user by this function. u will be given in decimal and addr in hexadecimal. Entering a value of 0 for addr is a special case, in which the memory to be displayed starts at your mem_buf.
+
 The units should be displayed according to the display flag. If the display flag is on then print using a hexadecimal representation, and if the display flag is off print using a decimal representation.
+
 If the user set the unit size to 2 and loaded a file into memory, then the output should look something like this (remember, we previously loaded 5 pairs of bytes from the file abc, located 303-312):
 
     Choose action:
@@ -215,7 +224,8 @@ Note that, depending on the chosen unit size, the printed hexadecimal values may
 Use your newly implemented functionality (load into memory and memory display) to answer: what is the entry point of your own hexeditplus program? Verify your answer using readelf -h
 
 
-Implementation note: working with units
+### Implementation note: working with units
+
 You are required to write code that handles data in unit sizes (i.e. not necessarily single bytes). This might confuse you into writing much more code than needed. See below how to handle multiple unit sizes when reading, printing etc. without writing too much code. Relevant to this task is the function print_units, and also see below.
 Note that, you can use the following lines to use for printing
 
@@ -230,19 +240,23 @@ where u is the current unit size and val is the val that we want to print, and w
 ### Task 1d: Save Into File
 
 Write the function for the "Save Into File" option, which works as follows:
+
 This option replaces length units (each of size determined by the current unit size) at target-location of file_name with bytes from the hexeditplus memory starting at virtual address source-address. Note that the filename is the last file name set by option 1 "Set File Name".
 
 When the user chooses option 6, the program should query the user for:
+
 source-address (source virtual memory address, in hexadecimal), source-address can be set to 0, in which case, the source address is start of mem_buf, in any other case, use source-address as an address in (virtual) memory.
 target-location (target file offset, in hexadecimal),
 length (number of units, in decimal).
 
 Implement the checks that the file can be opened (for writing and NOT truncating), and print appropriate debug messages in debug mode as in the previous task. Close the file after writing.
-For example, after the file name was set to "abc" and unit size to 1 bytes, choosing option "6-Save Into File" using source-address 960c170, target-location 33 and length 4, the program should write length = 4 bytes from (virtual) memory, starting at address 0x960c170 to the file abc, starting from offset 0x33 (overwriting what was originally there). It should look as follows:
 
-6
-Please enter <source-address> <target-location> <length>
-960c170 33 4
+**For example**, after the file name was set to "abc" and unit size to 1 bytes, choosing option "6-Save Into File" using source-address 960c170, target-location 33 and length 4, the program should write length = 4 bytes from (virtual) memory, starting at address 0x960c170 to the file abc, starting from offset 0x33 (overwriting what was originally there). It should look as follows:
+
+	6
+	Please enter <source-address> <target-location> <length>
+	960c170 33 4
+ 
 Note again that the target file is the one specified using option 1 in the menu.
 
 Also observe that after you execute this option, only length units of the file file_name should be changed.
