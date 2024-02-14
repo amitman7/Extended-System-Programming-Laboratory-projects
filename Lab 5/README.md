@@ -130,7 +130,7 @@ void addProcess(process** process_list, cmdLine* cmd, pid_t pid);: Receive a pro
 void printProcessList(process** process_list);: print the processes.
 Add support for the command procs to the shell which prints processes using printProcessList()in the following format:
 <index in process list> <process id> <process status> <the command together with its arguments>
-# Example:
+### Example:
     #> sleep 3  # foreground, takes 3 seconds until we get prompt back
     #> procs
     PID          Command      STATUS
