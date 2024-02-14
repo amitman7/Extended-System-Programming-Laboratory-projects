@@ -1,4 +1,4 @@
-# Lab 4: ELF - introduction
+# Lab 6: ELF - introduction
 
 
 ### Lab Goals
