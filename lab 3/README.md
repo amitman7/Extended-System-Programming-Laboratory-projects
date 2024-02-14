@@ -1,7 +1,7 @@
 # C Programming: debugging, dynamic data structures: linked lists, patching binary files.
 
 
-### Home-Lab B -- Assignment goals:
+### Assignment goals:
 
 Pointers and dynamically allocated structures and the "Valgrind" utility
 Understanding data structures: linked lists in C
