@@ -149,20 +149,28 @@ To implement the above, you should follow the procedure stated for pass I in the
     The second ELF file does not contain any symbola that do not exist in the first ELF file.
     The second ELF file does mot have any relocations.
     
-With all the above simplifying assumptions, the following method can be used for merging.
+### With all the above simplifying assumptions, the following method can be used for merging.
 
-    Use a copy of the ELF header of the first file as the ELF header for the merged file. You need to modify only the "e_shoff" field, as specified below.
-    Use a copy of the section header table of the first ELF file as an initial version of the section header table for the merged file. You will need to modify the "sh_off" and "sh_size" fields in each section header, as specified below.
-    Mergable sections: ".text" ".data", ".rodata" sre merged as follows. Concatenate the section contents from the first ELF file and the section contents from the second ELF file, to create the merged appropriate section. E.g. to create the merged ".text" section, copy the contents of ".text" from the first ELF file, and to that append the contents of ".text" from the second ELF file. The merged section obviously has a size that is the sum of the sizes (should accordingly change the appropriate section header).
-    Section ".shstrtab" of the first ELF file can be used without changes as the ".shstrtab" of the merged file, and the same for ".symtab" and any relocation sections (because of the restricting assumptions above).
-    The symbola table of the first ELF file can be used as that of the merged file, after copying over symbol values and definition of symbols from the second ELF file, for every symbol that is UNDEFINED in the first ELF file.
+**Use a copy** of the ELF header of the first file as the ELF header for the merged file. You need to modify only the "e_shoff" field, as specified below.
+    
+**Use a copy** of the section header table of the first ELF file as an initial version of the section header table for the merged file. You will need to modify the "sh_off" and "sh_size" fields in each section header, as specified below.
+    
+**Mergable sections:** ".text" ".data", ".rodata" sre merged as follows. Concatenate the section contents from the first ELF file and the section contents from the second ELF file, to create the merged appropriate section. E.g. to create the merged ".text" section, copy the contents of ".text" from the first ELF file, and to that append the contents of ".text" from the second ELF file. The merged section obviously has a size that is the sum of the sizes (should accordingly change the appropriate section header).
+    
+**Section** ".shstrtab" of the first ELF file can be used without changes as the ".shstrtab" of the merged file, and the same for ".symtab" and any relocation sections (because of the restricting assumptions above).
+    
+**The symbola** table of the first ELF file can be used as that of the merged file, after copying over symbol values and definition of symbols from the second ELF file, for every symbol that is UNDEFINED in the first ELF file.
 
-A practical implementation of the above then looks as follows:
+### A practical implementation of the above then looks as follows:
 
-    Create "out.ro" and copy an initial version of the ELF header as its header.
-    Create (in memory) an initial version of the section header table for the merged file by copying that of the first ELF file.
-    Loop over the entries of the new section header table, and process each section according to the above scheme (concatenate ".text", copy ".shstrtab" as-is, etc.), and immediately write (append) the appropriate merged section to "out.ro". Note that to concatenate e.g. ".text", simply write the contents of ".text" from the first ELF file, at the end of "out.ro", then find the contents of ".text" in the second ELF file (by finding ".text" in its section header table) and write it again at the end of "out.ro" (no need to merge them in memory!) So now you know the file offset of the merged section and its length, so update the appropriate section header table entry fields (offset and size).
-    Write the merged (and modified) section header table entry, appended to the end of "out.ro".
-    Fix the "e_shoff" field in ELF header of "out.ro" to point to the location where you actually wrote the section header table, and close "out.ro".
+**Create "out.ro"** and copy an initial version of the ELF header as its header.
+
+**Create** (in memory) an initial version of the section header table for the merged file by copying that of the first ELF file.
+
+**Loop over** the entries of the new section header table, and process each section according to the above scheme (concatenate ".text", copy ".shstrtab" as-is, etc.), and immediately write (append) the appropriate merged section to "out.ro". Note that to concatenate e.g. ".text", simply write the contents of ".text" from the first ELF file, at the end of "out.ro", then find the contents of ".text" in the second ELF file (by finding ".text" in its section header table) and write it again at the end of "out.ro" (no need to merge them in memory!) So now you know the file offset of the merged section and its length, so update the appropriate section header table entry fields (offset and size).
+
+**Write the merged** (and modified) section header table entry, appended to the end of "out.ro".
+
+**Fix** the "e_shoff" field in ELF header of "out.ro" to point to the location where you actually wrote the section header table, and close "out.ro".
     
 The basic requirement here is that "readelf" on "out.ro" will show that all sections have been merged as stated above, and that the symbols have been resolved, when operating on pairs of ELF files that obey the restrictions stated above. For a bonus, running ld (the linker pass II) on "out.ro" should work correctly in these cases, and generate an executable file that runs correctly!
